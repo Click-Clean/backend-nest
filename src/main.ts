@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,16 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   app.use(cookieParser()); // cookie parser for auth
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
 
   const port: number = configService.get<number>('PORT') ?? 3001;
 
