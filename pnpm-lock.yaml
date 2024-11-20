@@ -71,6 +71,12 @@ importers:
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(mysql2@3.11.4)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3))
+      typeorm-naming-strategies:
+        specifier: ^4.1.0
+        version: 4.1.0(typeorm@0.3.20(mysql2@3.11.4)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))
+      unique-username-generator:
+        specifier: ^1.3.0
+        version: 1.3.0
     devDependencies:
       '@nestjs/cli':
         specifier: ^10.0.0
@@ -3051,6 +3057,11 @@ packages:
   typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
+  typeorm-naming-strategies@4.1.0:
+    resolution: {integrity: sha512-vPekJXzZOTZrdDvTl1YoM+w+sUIfQHG4kZTpbFYoTsufyv9NIBRe4Q+PdzhEAFA2std3D9LZHEb1EjE9zhRpiQ==}
+    peerDependencies:
+      typeorm: ^0.2.0 || ^0.3.0
+
   typeorm@0.3.20:
     resolution: {integrity: sha512-sJ0T08dV5eoZroaq9uPKBoNcGslHBR4E4y+EBHs//SiGbblGe7IeduP/IH4ddCcj0qp3PHwDwGnuvqEAnKlq/Q==}
     engines: {node: '>=16.13.0'}
@@ -3123,6 +3134,9 @@ packages:
 
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+
+  unique-username-generator@1.3.0:
+    resolution: {integrity: sha512-oPs+Jq9UlXmcrpzrpYvWOWVUVLkJ0/x8zM66ikWEBe1l/hBqXS5fofsDvdScLIlPtqQKlu8/Y91b6T2XtIFubQ==}
 
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -6642,6 +6656,10 @@ snapshots:
 
   typedarray@0.0.6: {}
 
+  typeorm-naming-strategies@4.1.0(typeorm@0.3.20(mysql2@3.11.4)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3))):
+    dependencies:
+      typeorm: 0.3.20(mysql2@3.11.4)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3))
+
   typeorm@0.3.20(mysql2@3.11.4)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)):
     dependencies:
       '@sqltools/formatter': 1.2.5
@@ -6674,6 +6692,8 @@ snapshots:
       '@lukeed/csprng': 1.1.0
 
   undici-types@6.19.8: {}
+
+  unique-username-generator@1.3.0: {}
 
   universalify@2.0.1: {}
 
