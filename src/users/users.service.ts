@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   async createUserByProfile(profile: Profile): Promise<User> {
-    const user: User = await User.createByProfile(profile);
+    const user: User = new User(profile);
     return await this.userRepository.save(user);
   }
 

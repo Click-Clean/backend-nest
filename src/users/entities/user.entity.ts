@@ -7,11 +7,18 @@ import {
 import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Profile } from 'passport-kakao';
+import { Profile as KakaoProfile } from 'passport-kakao';
+import { Profile as GoogleProfile } from 'passport-google-oauth20';
 import { generateUsername } from 'unique-username-generator';
 
 @Entity('users')
 export class User {
+  constructor(profile: KakaoProfile | GoogleProfile) {
+    this.providerId = profile.id;
+    this.social = profile.provider === 'kakao';
+    this.username = profile.username ?? this.createRandomNickname();
+  }
+
   @ApiProperty()
   @PrimaryGeneratedColumn()
   @IsNumber()
@@ -48,15 +55,7 @@ export class User {
   @Column()
   providerId: string;
 
-  static async createByProfile(profile: Profile): Promise<User> {
-    const newUser = new User();
-    newUser.providerId = profile.id;
-    newUser.social = profile.provider === 'kakao';
-    newUser.username = profile.username ?? (await this.createRandomNickname());
-    return newUser;
-  }
-
-  static async createRandomNickname(): Promise<string> {
+  private createRandomNickname(): string {
     return generateUsername('-', 3, 8, 'User');
   }
 }
