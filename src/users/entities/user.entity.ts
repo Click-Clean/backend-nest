@@ -13,10 +13,12 @@ import { generateUsername } from 'unique-username-generator';
 
 @Entity('users')
 export class User {
-  constructor(profile: KakaoProfile | GoogleProfile) {
-    this.providerId = profile.id;
-    this.social = profile.provider === 'kakao';
-    this.username = profile.username ?? this.createRandomNickname();
+  static async create(profile: KakaoProfile | GoogleProfile) {
+    const newUser = new User();
+    newUser.providerId = profile.id;
+    newUser.social = profile.provider === 'kakao';
+    newUser.username = profile.username ?? User.createRandomNickname();
+    return newUser;
   }
 
   @ApiProperty()
@@ -55,7 +57,7 @@ export class User {
   @Column()
   providerId: string;
 
-  private createRandomNickname(): string {
+  static createRandomNickname(): string {
     return generateUsername('-', 3, 8, 'User');
   }
 }
