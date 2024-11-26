@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { IsDate, IsNumber, IsString, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class Article {
+export class News {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   @IsNumber()
