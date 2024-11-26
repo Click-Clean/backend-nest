@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { JwtPayload } from '../jwt.payload';
 
 @Injectable()
-export class RefreshTokenGuard extends PassportStrategy(
+export class AccessTokenGuard extends PassportStrategy(
   Strategy,
   'access_token',
 ) {
