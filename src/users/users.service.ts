@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   async createUserByProfile(profile: Profile): Promise<User> {
-    const user: User = new User(profile);
+    const user: User = await User.create(profile);
     return await this.userRepository.save(user);
   }
 
@@ -32,5 +32,13 @@ export class UsersService {
     updateUserDto: UpdateUserRefreshTokenDto | UpdateUserDto,
   ) {
     return this.userRepository.update(user, updateUserDto);
+  }
+
+  async getUserById(id: number) {
+    return this.userRepository.findOneBy({ id });
+  }
+
+  async updateUserById(id: number, updateUserDto: UpdateUserDto) {
+    return this.userRepository.update({ id }, updateUserDto);
   }
 }
