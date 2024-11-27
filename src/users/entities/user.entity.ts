@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
@@ -10,6 +11,7 @@ import { Exclude } from 'class-transformer';
 import { Profile as KakaoProfile } from 'passport-kakao';
 import { Profile as GoogleProfile } from 'passport-google-oauth20';
 import { generateUsername } from 'unique-username-generator';
+import { Subscription } from '../../subscription/entities/subscription.entity';
 
 @Entity('users')
 export class User {
@@ -56,6 +58,9 @@ export class User {
   @IsString()
   @Column()
   providerId: string;
+
+  @OneToMany(() => Subscription, (subscription) => subscription.user)
+  subscriptions: Subscription[];
 
   static createRandomNickname(): string {
     return generateUsername('-', 3, 8, 'User');
