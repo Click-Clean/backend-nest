@@ -10,7 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { UserId } from './decorators/user-id.decorator';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
-import { UpdateUserDto } from './dtos/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UsersController {

@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { Profile } from 'passport-kakao';
-import { UpdateUserDto } from './dtos/update-user.dto';
-import { UpdateUserRefreshTokenDto } from './dtos/update-user-refresh-token.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserRefreshTokenDto } from './dto/update-user-refresh-token.dto';
 
 @Injectable()
 export class UsersService {

@@ -5,7 +5,7 @@ import { Profile } from 'passport-kakao';
 import { UsersService } from '../users/users.service';
 import { JwtPayload } from './jwt.payload';
 import { JwtService } from '@nestjs/jwt';
-import { UpdateUserRefreshTokenDto } from '../users/dtos/update-user-refresh-token.dto';
+import { UpdateUserRefreshTokenDto } from '../users/dto/update-user-refresh-token.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
 
 @Injectable()

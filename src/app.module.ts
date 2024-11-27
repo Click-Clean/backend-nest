@@ -6,7 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { ArticleModule } from './article/article.module';
 import { NewsModule } from './news/news.module';
 
 @Module({
@@ -32,7 +31,6 @@ import { NewsModule } from './news/news.module';
     }),
     AuthModule,
     UsersModule,
-    ArticleModule,
     NewsModule,
   ],
   controllers: [AppController],
