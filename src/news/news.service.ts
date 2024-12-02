@@ -7,6 +7,7 @@ import { News } from './entities/news.entity';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Comment } from '../comment/entities/comment.entity';
 import { CommentService } from '../comment/comment.service';
+import { GetNewsListResponseDto } from '../users/dto/get-news-list-response.dto';
 
 @Injectable()
 export class NewsService {
@@ -16,7 +17,9 @@ export class NewsService {
     private readonly commentService: CommentService,
   ) {}
 
-  async findNewsList(getNewsListQuery: GetNewsListQueryDTO) {
+  async findNewsList(
+    getNewsListQuery: GetNewsListQueryDTO,
+  ): Promise<GetNewsListResponseDto> {
     const [news, cnt] = await this.newsRepository.findAndCount({
       where: {
         category: getNewsListQuery.category,
