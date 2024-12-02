@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { News } from '../../news/entities/news.entity';
 
 export class GetNewsListResponseDto {
-  @ApiProperty()
+  @ApiProperty({ type: [News] })
   news: News[];
 
   @ApiProperty()

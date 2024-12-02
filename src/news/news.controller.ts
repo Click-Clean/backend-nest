@@ -18,6 +18,7 @@ export class NewsController {
   }
 
   @Get('/:newsId/comments')
+  @ApiResponse({ type: [Comment] })
   async getComments(@Param('newsId') newsId: string): Promise<Comment[]> {
     return await this.newsService.findNewsComments(+newsId);
   }
