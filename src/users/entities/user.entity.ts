@@ -41,8 +41,8 @@ export class User {
 
   @ApiProperty()
   @IsDate()
-  @CreateDateColumn({ default: 'now(6)' })
-  createdAt: string = Date.now().toString();
+  @CreateDateColumn()
+  createdAt: string;
 
   @ApiProperty()
   @IsBoolean()
