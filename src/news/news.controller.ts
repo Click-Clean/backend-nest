@@ -5,7 +5,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { GetNewsListResponseDto } from '../users/dto/get-news-list-response.dto';
 import { Comment } from '../comment/entities/comment.entity';
 
-@Controller('news')
+@Controller('api/news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
 

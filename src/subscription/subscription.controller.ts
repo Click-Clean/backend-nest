@@ -6,7 +6,7 @@ import { Subscription } from './entities/subscription.entity';
 import { ApiResponse } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 
-@Controller('subscription')
+@Controller('api/subscription')
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 

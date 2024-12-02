@@ -17,7 +17,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 import { User } from './entities/user.entity';
 
-@Controller('user')
+@Controller('api/user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
