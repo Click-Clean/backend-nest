@@ -7,6 +7,7 @@ import { JwtPayload } from './jwt.payload';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUserRefreshTokenDto } from '../users/dto/update-user-refresh-token.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -54,5 +55,17 @@ export class AuthService {
       secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
       expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRATION'),
     });
+  }
+
+  async tokenValidateUser(userId: number): Promise<User> {
+    return this.usersService.getUserById(userId);
+  }
+
+  async getRefreshTokenFromHeader(req: Request): Promise<any> {
+    return req.cookies['refresh_token'];
+  }
+
+  async deleteRefreshTokenOfUser(userId: number) {
+    return await this.usersService.deleteRefreshToken(userId);
   }
 }

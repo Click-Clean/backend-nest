@@ -41,4 +41,8 @@ export class UsersService {
   async updateUserById(id: number, updateUserDto: UpdateUserDto) {
     return this.userRepository.update({ id }, updateUserDto);
   }
+
+  async deleteRefreshToken(id: number) {
+    return this.userRepository.update(id, { refreshToken: '' });
+  }
 }
