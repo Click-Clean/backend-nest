@@ -31,7 +31,7 @@ export class UsersService {
     user: User,
     updateUserDto: UpdateUserRefreshTokenDto | UpdateUserDto,
   ) {
-    return this.userRepository.update(user, updateUserDto);
+    return this.userRepository.update(user.id, updateUserDto);
   }
 
   async getUserById(id: number) {

@@ -44,7 +44,6 @@ export class AuthController {
   ) {
     try {
       const profile: Profile = req.user as Profile;
-
       const loginResult: TokenResponseDto =
         await this.authService.kakaoLogIn(profile);
 
