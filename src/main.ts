@@ -6,11 +6,19 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionFilter } from './exception/all-exception.filter';
 import { AllResponseInterceptor } from './interceptors/all-response.interceptor';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService: ConfigService = app.get(ConfigService);
+  app.enableCors({
+    origin: configService.get<string>('CLIENT_DOMAIN'),
+    credentials: true,
+  });
+
+  app.use(helmet());
+
   // Swagger Setting
   const config = new DocumentBuilder()
     .setTitle('Cloud Project - Nest.js')
