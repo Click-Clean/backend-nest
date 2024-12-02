@@ -1,11 +1,13 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
   ParseIntPipe,
   Patch,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserId } from './decorators/user-id.decorator';
@@ -22,6 +24,7 @@ export class UsersController {
   @Get()
   @ApiResponse({ type: User })
   @UseGuards(AccessTokenGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async getUserData(@UserId(ParseIntPipe) id: number): Promise<User> {
     return this.usersService.getUserById(id);
   }

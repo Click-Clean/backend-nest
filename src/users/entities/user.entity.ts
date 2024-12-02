@@ -49,7 +49,6 @@ export class User {
   @Column()
   social: boolean;
 
-  @ApiProperty()
   @IsString()
   @Exclude()
   @Column({ nullable: true })
