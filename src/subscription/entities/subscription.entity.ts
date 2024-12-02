@@ -23,9 +23,9 @@ export class Subscription {
   userId: number;
 
   @ApiProperty()
-  @Column()
+  @Column({ default: 'now(6)' })
   @IsString()
-  category: string;
+  category: string = Date.now().toString();
 
   @ApiProperty()
   @Column()
