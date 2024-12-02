@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { NewsModule } from './news/news.module';
 import { SubscriptionModule } from './subscription/subscription.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
     UsersModule,
     NewsModule,
     SubscriptionModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

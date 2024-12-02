@@ -12,6 +12,7 @@ import { Profile as KakaoProfile } from 'passport-kakao';
 import { Profile as GoogleProfile } from 'passport-google-oauth20';
 import { generateUsername } from 'unique-username-generator';
 import { Subscription } from '../../subscription/entities/subscription.entity';
+import { Comment } from '../../comment/entities/comment.entity';
 
 @Entity('users')
 export class User {
@@ -61,6 +62,9 @@ export class User {
 
   @OneToMany(() => Subscription, (subscription) => subscription.user)
   subscriptions: Subscription[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 
   static createRandomNickname(): string {
     return generateUsername('-', 3, 8, 'User');

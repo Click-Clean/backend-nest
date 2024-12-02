@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsDate, IsNumber, IsString, IsUrl } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Comment } from '../../comment/entities/comment.entity';
 
 @Entity('article')
 export class News {
@@ -58,4 +60,7 @@ export class News {
   @Column()
   @IsNumber()
   probability: number;
+
+  @OneToMany(() => Comment, (comment) => comment.article)
+  comments: Comment[];
 }

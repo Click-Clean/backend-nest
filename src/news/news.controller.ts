@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { GetNewsListQueryDTO } from './dto/get-news-list-query.dto';
 
@@ -9,5 +9,10 @@ export class NewsController {
   @Get()
   async findAll(@Query() getNewsListQuery: GetNewsListQueryDTO) {
     return this.newsService.findNewsList(getNewsListQuery);
+  }
+
+  @Get('/:newsId/comments')
+  async getComments(@Param('newsId') newsId: string) {
+    return this.newsService.findNewsComments(+newsId);
   }
 }

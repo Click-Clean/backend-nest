@@ -5,17 +5,16 @@ import { GetNewsListQueryDTO } from './dto/get-news-list-query.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { News } from './entities/news.entity';
 import { MoreThanOrEqual, Repository } from 'typeorm';
+import { Comment } from '../comment/entities/comment.entity';
+import { CommentService } from '../comment/comment.service';
 
 @Injectable()
 export class NewsService {
   constructor(
     @InjectRepository(News)
     private newsRepository: Repository<News>,
+    private readonly commentService: CommentService,
   ) {}
-
-  create(createNewsDto: CreateNewsDto) {
-    return 'This action adds a new news';
-  }
 
   async findNewsList(getNewsListQuery: GetNewsListQueryDTO) {
     const [news, cnt] = await this.newsRepository.findAndCount({
@@ -34,15 +33,7 @@ export class NewsService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} news`;
-  }
-
-  update(id: number, updateNewsDto: UpdateNewsDto) {
-    return `This action updates a #${id} news`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} news`;
+  async findNewsComments(newsId: number): Promise<Comment[]> {
+    return await this.commentService.findAllComments(newsId);
   }
 }
