@@ -48,7 +48,7 @@ export class AuthController {
       const loginResult: TokenResponseDto =
         await this.authService.kakaoLogIn(profile);
 
-      return res
+      res
         .cookie('access_token', loginResult.accessToken, {
           sameSite: 'lax',
           httpOnly: true,
