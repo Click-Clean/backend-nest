@@ -61,6 +61,11 @@ export class News {
   @IsNumber()
   probability: number;
 
+  @ApiProperty()
+  @Column()
+  @IsUrl()
+  imageUrl: string;
+
   @OneToMany(() => Comment, (comment) => comment.article)
   comments: Comment[];
 }
