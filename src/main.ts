@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionFilter } from './exception/all-exception.filter';
 import { AllResponseInterceptor } from './interceptors/all-response.interceptor';
 import helmet from 'helmet';
+import { json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,8 +17,6 @@ async function bootstrap() {
     origin: configService.get<string>('CLIENT_DOMAIN'),
     credentials: true,
   });
-
-  app.use(helmet());
 
   // Swagger Setting
   const config = new DocumentBuilder()
