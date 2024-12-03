@@ -8,6 +8,7 @@ import {
   Post,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
@@ -67,39 +68,23 @@ export class AuthController {
   async tokenRefresh(
     @Req() req: Request,
     @UserId(ParseIntPipe) userId: number,
-    @Res() res: Response,
   ): Promise<any> {
     const refreshToken = await this.authService.getRefreshTokenFromHeader(req);
     const user: User = await this.authService.tokenValidateUser(userId);
     if (user.refreshToken !== refreshToken) {
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ msg: `This refresh token is not user's token` });
+      throw new UnauthorizedException(`This refresh token is not user's token`);
     }
 
     const newAccessToken = await this.authService.createAccessToken(user);
 
-    return res
-      .cookie('access_token', newAccessToken, {
-        sameSite: 'lax',
-        httpOnly: true,
-        maxAge: this.configService.get<number>('ACCESS_TOKEN_MAX_AGE'),
-      })
-      .status(HttpStatus.CREATED)
-      .json({ msg: 'Refresh token successfully.' });
+    return { access_token: newAccessToken };
   }
 
   @UseGuards(AccessTokenGuard)
   @ApiBearerAuth()
   @Post('logout')
-  async logout(
-    @UserId(ParseIntPipe) userId: number,
-    @Res() res: Response,
-  ): Promise<any> {
+  async logout(@UserId(ParseIntPipe) userId: number): Promise<any> {
     await this.authService.deleteRefreshTokenOfUser(userId);
-    return res
-      .cookie('access_token', '', { maxAge: 0 })
-      .cookie('refresh_token', '', { maxAge: 0 })
-      .send();
+    return { access_token: '', refresh_token: '' };
   }
 }
