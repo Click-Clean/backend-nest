@@ -47,20 +47,14 @@ export class AuthController {
       const loginResult: TokenResponseDto =
         await this.authService.kakaoLogIn(profile);
 
-      res
-        .cookie('access_token', loginResult.accessToken, {
-          sameSite: 'lax',
-          httpOnly: true,
-          maxAge: this.configService.get<number>('ACCESS_TOKEN_MAX_AGE'),
-        })
-        .cookie('refresh_token', loginResult.refreshToken, {
-          sameSite: 'lax',
-          httpOnly: true,
-          maxAge: this.configService.get<number>('REFRESH_TOKEN_MAX_AGE'),
+      return res
+        .json({
+          access_token: loginResult.accessToken,
+          refresh_token: loginResult.refreshToken,
         })
         .redirect(this.configService.get<string>('CLIENT_DOMAIN'));
     } catch (e) {
-      throw new InternalServerErrorException(e.message());
+      throw new InternalServerErrorException('Internal Server Error', e);
     }
   }
 
