@@ -1,4 +1,10 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ParseIntPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { SubscriptionService } from './subscription.service';
 import { UserId } from '../users/decorators/user-id.decorator';
 import { SubscribeNewsDto } from './dto/subscribe-news.dto';
@@ -14,10 +20,9 @@ export class SubscriptionController {
   @ApiResponse({ type: Subscription })
   @UseGuards(AccessTokenGuard)
   async subscribeNews(
-    @UserId() userId: number,
+    @UserId(ParseIntPipe) userId: number,
     @Body() subscriptionNewsDto: SubscribeNewsDto,
   ): Promise<Subscription> {
-    console.log(userId);
     return await this.subscriptionService.subscribeNews(
       userId,
       subscriptionNewsDto,
