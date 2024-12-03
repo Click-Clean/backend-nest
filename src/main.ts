@@ -17,6 +17,10 @@ async function bootstrap() {
     origin: '*',
     credentials: true,
   });
+  app.use((req, res, next) => {
+    res.removeHeader('Cross-Origin-Opener-Policy');
+    next();
+  });
 
   // Swagger Setting
   const config = new DocumentBuilder()
