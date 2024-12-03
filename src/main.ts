@@ -7,7 +7,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionFilter } from './exception/all-exception.filter';
 import { AllResponseInterceptor } from './interceptors/all-response.interceptor';
 import helmet from 'helmet';
-import { json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +16,8 @@ async function bootstrap() {
     origin: '*',
     credentials: true,
   });
+  app.use(helmet());
+
   app.use((req, res, next) => {
     res.removeHeader('Cross-Origin-Opener-Policy');
     next();
