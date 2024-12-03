@@ -1,28 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { Request } from 'express';
-import { JwtPayload } from '../jwt.payload';
 
 @Injectable()
-export class AccessTokenGuard extends PassportStrategy(
-  Strategy,
-  'access_token',
-) {
+export class AccessTokenGuard extends AuthGuard('access_token') {
   constructor(private readonly configService: ConfigService) {
-    super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => {
-          return req?.cookies?.access_token;
-        },
-      ]),
-      ignoreExpiration: false,
-      secretOrKey: configService.get<string>('ACCESS_TOKEN_SECRET'),
-    });
+    super();
   }
 
-  async validate(payload: JwtPayload, done: VerifiedCallback): Promise<any> {
-    return done(null, payload);
+  handleRequest(err: any, user: any, info: any, context: ExecutionContext) {
+    if (err || !user) {
+      throw new UnauthorizedException(`Invalid access token.`);
+    }
+
+    return user;
   }
 }

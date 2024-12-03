@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { ExtractJwt, VerifiedCallback } from 'passport-jwt';
+import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { JwtPayload } from '../jwt.payload';
 
 @Injectable()
-export class AccessTokenStrategy extends AuthGuard('access_token') {
+export class AccessTokenStrategy extends PassportStrategy(
+  Strategy,
+  'access_token',
+) {
   constructor(private configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

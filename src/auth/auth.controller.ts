@@ -63,19 +63,16 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiCreatedResponse({ description: 'Access token refreshed!' })
   @ApiUnauthorizedResponse({ description: `Refresh token is not user's!` })
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   @Get('token-refresh')
   async tokenRefresh(
     @Req() req: Request,
     @UserId(ParseIntPipe) userId: number,
   ): Promise<any> {
     const refreshToken = await this.authService.getRefreshTokenFromHeader(req);
-    const user: User = await this.authService.tokenValidateUser(userId);
-    if (user.refreshToken !== refreshToken) {
-      throw new UnauthorizedException(`This refresh token is not user's token`);
-    }
+    await this.authService.tokenValidateUser(userId, refreshToken);
 
-    const newAccessToken = await this.authService.createAccessToken(user);
+    const newAccessToken = await this.authService.createAccessToken(userId);
 
     return { access_token: newAccessToken };
   }

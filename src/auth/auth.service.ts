@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from '../users/entities/user.entity';
 import { Profile } from 'passport-kakao';
@@ -20,7 +20,7 @@ export class AuthService {
   async kakaoLogIn(profile: Profile): Promise<TokenResponseDto> {
     const user: User = await this.validateKakaoUser(profile);
 
-    const accessToken: string = await this.createAccessToken(user);
+    const accessToken: string = await this.createAccessToken(user.id);
     const refreshToken: string = await this.createRefreshToken(user);
 
     const updateUserRefreshTokenDto: UpdateUserRefreshTokenDto = {
@@ -41,8 +41,8 @@ export class AuthService {
     return user;
   }
 
-  async createAccessToken(user: User): Promise<string> {
-    const payload: JwtPayload = { id: user.id };
+  async createAccessToken(userId: number): Promise<string> {
+    const payload: JwtPayload = { id: userId };
     return await this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
       expiresIn: this.configService.get<string>('ACCESS_TOKEN_EXPIRATION'),
@@ -57,12 +57,17 @@ export class AuthService {
     });
   }
 
-  async tokenValidateUser(userId: number): Promise<User> {
-    return this.usersService.getUserById(userId);
+  async tokenValidateUser(userId: number, refreshToken: string) {
+    await this.usersService.getUserById(userId);
+    if (
+      (await this.usersService.getUserById(userId)).refreshToken !==
+      refreshToken
+    )
+      throw new UnauthorizedException(`This refresh token is not user's token`);
   }
 
   async getRefreshTokenFromHeader(req: Request): Promise<any> {
-    return req.cookies['refresh_token'];
+    return req.header('Authorization').split(' ')[1];
   }
 
   async deleteRefreshTokenOfUser(userId: number) {

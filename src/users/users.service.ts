@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -35,7 +35,10 @@ export class UsersService {
   }
 
   async getUserById(id: number) {
-    return this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOneBy({ id });
+    if (user === null)
+      throw new BadRequestException(`User with id ${id} not found`);
+    return user;
   }
 
   async updateUserById(id: number, updateUserDto: UpdateUserDto) {

@@ -13,15 +13,10 @@ async function bootstrap() {
 
   const configService: ConfigService = app.get(ConfigService);
   app.enableCors({
-    origin: '*',
+    origin: configService.get<string>('CLIENT_DOMAIN'),
     credentials: true,
   });
   app.use(helmet());
-
-  app.use((req, res, next) => {
-    res.removeHeader('Cross-Origin-Opener-Policy');
-    next();
-  });
 
   // Swagger Setting
   const config = new DocumentBuilder()
