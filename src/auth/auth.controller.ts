@@ -49,10 +49,8 @@ export class AuthController {
         await this.authService.kakaoLogIn(profile);
 
       return res
-        .header({
-          access_token: loginResult.accessToken,
-          refresh_token: loginResult.refreshToken,
-        })
+        .cookie('access_token', loginResult.accessToken, { httpOnly: true })
+        .cookie('refresh_token', loginResult.refreshToken, { httpOnly: true })
         .redirect(this.configService.get<string>('CLIENT_DOMAIN'));
     } catch (e) {
       throw new InternalServerErrorException('Internal Server Error', e);
@@ -75,9 +73,7 @@ export class AuthController {
 
     const newAccessToken = await this.authService.createAccessToken(userId);
 
-    return res
-      .header({ access_token: newAccessToken })
-      .send('Token refreshed!');
+    return res.cookie('access_token', newAccessToken).send('Token refreshed!');
   }
 
   @UseGuards(AccessTokenGuard)
@@ -88,6 +84,6 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<any> {
     await this.authService.deleteRefreshTokenOfUser(userId);
-    return res.header({ access_token: '', refresh_token: '' }).send();
+    return res.cookie('access_token', '').cookie('refresh_token', '').send();
   }
 }
