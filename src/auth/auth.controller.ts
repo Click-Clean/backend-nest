@@ -49,7 +49,7 @@ export class AuthController {
         await this.authService.kakaoLogIn(profile);
 
       return res
-        .json({
+        .header({
           access_token: loginResult.accessToken,
           refresh_token: loginResult.refreshToken,
         })
@@ -68,20 +68,26 @@ export class AuthController {
   async tokenRefresh(
     @Req() req: Request,
     @UserId(ParseIntPipe) userId: number,
+    @Res() res: Response,
   ): Promise<any> {
     const refreshToken = await this.authService.getRefreshTokenFromHeader(req);
     await this.authService.tokenValidateUser(userId, refreshToken);
 
     const newAccessToken = await this.authService.createAccessToken(userId);
 
-    return { access_token: newAccessToken };
+    return res
+      .header({ access_token: newAccessToken })
+      .send('Token refreshed!');
   }
 
   @UseGuards(AccessTokenGuard)
   @ApiBearerAuth()
   @Post('logout')
-  async logout(@UserId(ParseIntPipe) userId: number): Promise<any> {
+  async logout(
+    @UserId(ParseIntPipe) userId: number,
+    @Res() res: Response,
+  ): Promise<any> {
     await this.authService.deleteRefreshTokenOfUser(userId);
-    return { access_token: '', refresh_token: '' };
+    return res.header({ access_token: '', refresh_token: '' }).send();
   }
 }
