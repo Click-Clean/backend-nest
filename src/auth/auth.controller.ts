@@ -49,8 +49,8 @@ export class AuthController {
         await this.authService.kakaoLogIn(profile);
 
       return res
-        .cookie('access_token', loginResult.accessToken, { httpOnly: true })
-        .cookie('refresh_token', loginResult.refreshToken, { httpOnly: true })
+        .cookie('access_token', loginResult.accessToken)
+        .cookie('refresh_token', loginResult.refreshToken)
         .redirect(this.configService.get<string>('CLIENT_DOMAIN'));
     } catch (e) {
       throw new InternalServerErrorException('Internal Server Error', e);
