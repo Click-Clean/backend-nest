@@ -77,11 +77,9 @@ export class AuthController {
 
     const newAccessToken = await this.authService.createAccessToken(userId);
 
-    return res
-      .cookie('access_token', newAccessToken, {
-        domain: this.configService.get<string>('COOKIE_DOMAIN'),
-      })
-      .send('Token refreshed!');
+    return res.cookie('access_token', newAccessToken, {
+      domain: this.configService.get<string>('COOKIE_DOMAIN'),
+    });
   }
 
   @UseGuards(AccessTokenGuard)
@@ -98,7 +96,6 @@ export class AuthController {
       })
       .cookie('refresh_token', '', {
         domain: this.configService.get<string>('COOKIE_DOMAIN'),
-      })
-      .send();
+      });
   }
 }
