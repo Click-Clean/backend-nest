@@ -37,7 +37,7 @@ export class AuthController {
 
   @Get('/kakao/callback')
   @ApiCreatedResponse({ description: 'Kakao User Successfully Logged In!' })
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(302)
   @UseGuards(KakaoGuard)
   async kakaoCallback(
     @Req() req: Request,
@@ -84,6 +84,7 @@ export class AuthController {
 
   @UseGuards(AccessTokenGuard)
   @ApiBearerAuth()
+  @HttpCode(302)
   @Post('logout')
   async logout(
     @UserId(ParseIntPipe) userId: number,
