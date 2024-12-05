@@ -96,6 +96,7 @@ export class AuthController {
       })
       .cookie('refresh_token', '', {
         domain: this.configService.get<string>('COOKIE_DOMAIN'),
-      });
+      })
+      .redirect(this.configService.get<string>('CLIENT_DOMAIN'));
   }
 }
