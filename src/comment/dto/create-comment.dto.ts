@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
 
 export class CreateCommentDto {
   userId: number;
@@ -7,4 +7,8 @@ export class CreateCommentDto {
   @ApiProperty()
   @IsString()
   userTitle: string;
+
+  @ApiProperty()
+  @IsInt()
+  articleId: number;
 }

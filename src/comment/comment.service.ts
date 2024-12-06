@@ -13,7 +13,9 @@ export class CommentService {
   ) {}
 
   async create(createCommentDto: CreateCommentDto): Promise<Comment> {
-    return this.commentRepository.create(createCommentDto);
+    return await this.commentRepository.save(
+      this.commentRepository.create(createCommentDto),
+    );
   }
 
   findAll() {

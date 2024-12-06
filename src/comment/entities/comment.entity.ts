@@ -31,7 +31,7 @@ export class Comment {
   @ApiProperty()
   @Column()
   @IsString()
-  user_title: string;
+  userTitle: string;
 
   @ApiProperty()
   @Column()
