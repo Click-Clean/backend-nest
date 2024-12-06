@@ -44,7 +44,7 @@ export class CommentService {
 
   async findAllComments(newsId: number): Promise<Comment[]> {
     return await this.commentRepository.find({
-      where: { id: newsId },
+      where: { articleId: newsId },
       order: {
         probability: 'DESC',
         createdAt: 'DESC',
